@@ -10,14 +10,15 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ItemService
 {
-    private Cloudinary $cloudinary;
+    public Cloudinary $cloudinary;
     private EntityManagerInterface $entityManagerInterface;
     private ItemRepository $itemRepository;
 
     public function __construct(
         EntityManagerInterface $entityManagerInterface,
-        ItemRepository $itemRepository,
-    ) {
+        ItemRepository         $itemRepository,
+    )
+    {
         $this->entityManagerInterface = $entityManagerInterface;
         $this->itemRepository = $itemRepository;
 

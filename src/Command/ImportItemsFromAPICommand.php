@@ -9,6 +9,11 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 #[AsCommand(
@@ -18,12 +23,20 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 class ImportItemsFromAPICommand extends Command
 {
     public function __construct(
-        private HttpClientInterface $client,
-        private EntityManagerInterface $entityManager
-    ) {
+        private readonly HttpClientInterface    $client,
+        private readonly EntityManagerInterface $entityManager
+    )
+    {
         parent::__construct();
     }
 
+    /**
+     * @throws TransportExceptionInterface
+     * @throws ServerExceptionInterface
+     * @throws RedirectionExceptionInterface
+     * @throws DecodingExceptionInterface
+     * @throws ClientExceptionInterface
+     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
@@ -43,6 +56,13 @@ class ImportItemsFromAPICommand extends Command
         return Command::SUCCESS;
     }
 
+    /**
+     * @throws TransportExceptionInterface
+     * @throws ServerExceptionInterface
+     * @throws RedirectionExceptionInterface
+     * @throws DecodingExceptionInterface
+     * @throws ClientExceptionInterface
+     */
     private function getItems(SymfonyStyle $io): ?array
     {
         $response = $this->client->request('GET', 'https://api.restful-api.dev/objects');

@@ -8,13 +8,13 @@ use App\Factory\ItemUpdateFactory;
 use App\Repository\ItemRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
-final class WolfService
+class WolfService
 {
     private ItemRepository $itemRepository;
     private EntityManagerInterface $entityManager;
 
     public function __construct(
-        ItemRepository        $itemRepository,
+        ItemRepository         $itemRepository,
         EntityManagerInterface $entityManager
     )
     {
