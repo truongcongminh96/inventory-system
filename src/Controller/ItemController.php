@@ -27,10 +27,11 @@ class ItemController extends AbstractController
     #[Route('/api/upload-image', name: 'upload_image', methods: ['POST'])]
     public function uploadImage(Request $request): JsonResponse
     {
-        $itemId = $request->get('item_id');
+        $itemId = (int) $request->get('item_id');
         $image = $request->files->get('image');
 
         $response = $this->itemService->handleImageUpload($itemId, $image);
+
         return new JsonResponse($response['data'], $response['status']);
     }
 }

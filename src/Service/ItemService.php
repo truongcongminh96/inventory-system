@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Entity\Item;
 use App\Repository\ItemRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Cloudinary\Cloudinary;
@@ -13,8 +14,10 @@ class ItemService
     private EntityManagerInterface $entityManagerInterface;
     private ItemRepository $itemRepository;
 
-    public function __construct(EntityManagerInterface $entityManagerInterface, ItemRepository $itemRepository)
-    {
+    public function __construct(
+        EntityManagerInterface $entityManagerInterface,
+        ItemRepository $itemRepository,
+    ) {
         $this->entityManagerInterface = $entityManagerInterface;
         $this->itemRepository = $itemRepository;
 
@@ -25,36 +28,50 @@ class ItemService
         ]);
     }
 
-    public function handleImageUpload($itemId, $image): array
+    public function handleImageUpload(int $itemId, $image): array
     {
         $item = $this->itemRepository->find($itemId);
 
         if (!$item) {
-            return [
-                'data' => ['error' => 'Item not found'],
-                'status' => Response::HTTP_NOT_FOUND
-            ];
+            return $this->createErrorResponse('Item not found', Response::HTTP_NOT_FOUND);
         }
 
         if (!$image) {
-            return [
-                'data' => ['error' => 'Image file is required'],
-                'status' => Response::HTTP_BAD_REQUEST
-            ];
+            return $this->createErrorResponse('Missing Image', Response::HTTP_BAD_REQUEST);
         }
 
-        $isUpdate = $item->getImgUrl() ? true : false;
+        $isUpdate = $item->getImgUrl() !== null;
+        $this->uploadImageAndSetUrl($item, $image);
+
+        return $this->createSuccessResponse(
+            $isUpdate ? 'Image updated!!!!!' : 'Image uploaded!!!!!',
+            $item->getImgUrl()
+        );
+    }
+
+    private function uploadImageAndSetUrl(Item $item, $image): void
+    {
         $uploadResult = $this->cloudinary->uploadApi()->upload($image->getPathname());
-        $imgUrl = $uploadResult['secure_url'];
-        $item->setImgUrl($imgUrl);
+        $item->setImgUrl($uploadResult['secure_url']);
 
         $this->entityManagerInterface->persist($item);
         $this->entityManagerInterface->flush();
+    }
 
+    private function createErrorResponse(string $message, int $statusCode): array
+    {
+        return [
+            'data' => ['error' => $message],
+            'status' => $statusCode,
+        ];
+    }
+
+    private function createSuccessResponse(string $message, string $imgUrl): array
+    {
         return [
             'data' => [
-                'message' => $isUpdate ? 'Image updated!!!!!' : 'Image uploaded successfully!!!!!',
-                'imgUrl' => $item->getImgUrl()
+                'message' => $message,
+                'imgUrl' => $imgUrl
             ],
             'status' => Response::HTTP_OK
         ];
