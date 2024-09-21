@@ -25,7 +25,8 @@ class Item
     #[ORM\Column(type: 'json', nullable: true)]
     private ?array $data = null;
 
-    private string $imgUrl;
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $imgUrl = null;
 
     public function getId(): ?int
     {
@@ -40,7 +41,6 @@ class Item
     public function setName(string $name): static
     {
         $this->name = $name;
-
         return $this;
     }
 
@@ -52,7 +52,6 @@ class Item
     public function setSellIn(int $sellIn): static
     {
         $this->sellIn = $sellIn;
-
         return $this;
     }
 
@@ -64,7 +63,6 @@ class Item
     public function setQuality(int $quality): static
     {
         $this->quality = $quality;
-
         return $this;
     }
 
@@ -76,24 +74,22 @@ class Item
     public function setData(?array $data): self
     {
         $this->data = $data;
+        return $this;
+    }
 
+    public function getImgUrl(): ?string
+    {
+        return $this->imgUrl;
+    }
+
+    public function setImgUrl(?string $imgUrl): self
+    {
+        $this->imgUrl = $imgUrl;
         return $this;
     }
 
     public function __toString(): string
     {
         return (string) "{$this->name}, {$this->sellIn}, {$this->quality}";
-    }
-
-    public function getImgUrl(): string
-    {
-        return $this->imgUrl;
-    }
-
-    public function setImgUrl(string $imgUrl): self
-    {
-        $this->imgUrl = $imgUrl;
-
-        return $this;
     }
 }
