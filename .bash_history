@@ -11,3 +11,9 @@ symfony
 exit
 php bin/console app:import-items-from-api
 exit
+php bin/console app:import-items-from-api
+symfony
+php bin/console doctrine:migrations:migrate
+php bin/console doctrine:migrations:migrate
+php bin/console app:import-items-from-api
+exit
