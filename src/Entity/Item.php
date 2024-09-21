@@ -22,6 +22,9 @@ class Item
     #[ORM\Column]
     private ?int $quality = null;
 
+    #[ORM\Column(type: 'json', nullable: true)]
+    private ?array $data = null;
+
     private string $imgUrl;
 
     public function getId(): ?int
@@ -61,6 +64,18 @@ class Item
     public function setQuality(int $quality): static
     {
         $this->quality = $quality;
+
+        return $this;
+    }
+
+    public function getData(): ?array
+    {
+        return $this->data;
+    }
+
+    public function setData(?array $data): self
+    {
+        $this->data = $data;
 
         return $this;
     }
