@@ -1,0 +1,87 @@
+{
+	"info": {
+		"_postman_id": "6b65be37-7498-40fe-b37f-60909bef3915",
+		"name": "Symfony",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "3974024",
+		"_collection_link": "https://speeding-comet-748849.postman.co/workspace/FLOWFORCE~d2ccacae-5d35-4136-acd4-71d32eeda65d/collection/3974024-6b65be37-7498-40fe-b37f-60909bef3915?action=share&source=collection_link&creator=3974024"
+	},
+	"item": [
+		{
+			"name": "upload-image",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "item_id",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "image",
+							"type": "file",
+							"src": "/C:/Users/truon/Downloads/test.jpg"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/upload-image",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"upload-image"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update-quality",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "item_id",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "image",
+							"type": "file",
+							"src": "/C:/Users/truon/Downloads/test.jpg"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8080/api/update-quality",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"update-quality"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
