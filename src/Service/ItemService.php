@@ -23,9 +23,9 @@ class ItemService
         $this->itemRepository = $itemRepository;
 
         $this->cloudinary = new Cloudinary([
-            'cloud_name' => 'symfony',
-            'api_key' => '433543459182378',
-            'api_secret' => 'KRAyEV26JrFiOMO8SCvccBafac0',
+            'cloud_name' => $_ENV['CLOUDINARY_CLOUD_NAME'],
+            'api_key' => $_ENV['CLOUDINARY_API_KEY'],
+            'api_secret' => $_ENV['CLOUDINARY_API_SECRET'],
         ]);
     }
 
